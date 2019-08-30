@@ -10,7 +10,7 @@ async function run() {
     }
     const octokit = new github.GitHub(token);
     const context = github.context;
-    const deploymentId = parseInt(core.getInput('deployment-id'));
+    const deploymentId = parseInt(core.getInput('deployment_id'));
     if (deploymentId == undefined) {
       return;
     }
@@ -18,10 +18,12 @@ async function run() {
     if (state == undefined) {
       return;
     }
+    const target_url = core.getInput('target_url');
     octokit.repos.createDeploymentStatus({
       ...context.repo,
       deployment_id: deploymentId,
-      state: state
+      state: state,
+      target_url: target_url
     });
   } catch (error) {
     core.setFailed(error.message);

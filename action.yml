@@ -2,11 +2,13 @@ name: 'Set Deployment Status Action'
 description: 'Set deployment status on GitHub. https://developer.github.com/v3/repos/deployments/#create-a-deployment-status'
 author: 'yuichielectric'
 inputs:
-  deployment-id:
+  deployment_id:
     description: 'Deployment ID'
   state:
     description: 'The state of deployment. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued pending`, or `success`'
     default: 'success'
+  target_url:
+    description: 'The target URL to associate with this status.'
 runs:
   using: 'node12'
   main: 'lib/main.js'

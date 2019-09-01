@@ -6,18 +6,14 @@ async function run() {
   try {
     const token = process.env['GITHUB_TOKEN'];
     if (token == undefined) {
+      core.setFailed('GITHUB_TOKEN needs to be passed through environment variable.');
       return;
     }
     const octokit = new github.GitHub(token);
     const context = github.context;
-    const deploymentId = parseInt(core.getInput('deployment_id'));
-    if (deploymentId == undefined) {
-      return;
-    }
-    const state = core.getInput('state') as ReposCreateDeploymentStatusParams["state"];
-    if (state == undefined) {
-      return;
-    }
+    const deploymentId = parseInt(core.getInput('deployment_id', {required: true}));
+    const state = core.getInput('state', {required: true}) as ReposCreateDeploymentStatusParams["state"];
+
     const target_url = core.getInput('target_url');
     octokit.repos.createDeploymentStatus({
       ...context.repo,
